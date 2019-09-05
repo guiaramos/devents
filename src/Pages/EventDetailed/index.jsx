@@ -8,4 +8,4 @@ const EventDetailed = () => {
   );
 };
 
-export default index;
+export default EventDetailed;
