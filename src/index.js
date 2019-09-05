@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './Pages/App';
 import * as serviceWorker from './serviceWorker';
 
 // The root of the app
@@ -14,7 +14,7 @@ let render = () => {
 
 // Hot Module Replacement (HMR) -> updates without refreshing
 if (module.hot) {
-  module.hot.accept('./App', () => {
+  module.hot.accept('./Pages/App', () => {
     setTimeout(render);
   });
 }

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import EventDashboard from '../components/event/EventDashBoard';
-import NavBar from '../components/nav/NavBar';
+import EventDashboard from '../../components/event/EventDashBoard';
+import NavBar from '../../components/nav/NavBar';
 import { Container } from 'semantic-ui-react';
 
 class App extends Component {
