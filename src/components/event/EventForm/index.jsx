@@ -16,6 +16,10 @@ class EventForm extends Component {
   // Gets the information when form is submitted
   handleFormSubmit = event => {
     event.preventDefault();
+
+    const { createEvent } = this.props;
+    createEvent(this.state)
+
     console.log(this.state);
   };
 
