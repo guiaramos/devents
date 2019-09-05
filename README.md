@@ -77,6 +77,27 @@ _Why?_ Because it is the most popular centralized state management libraries in 
 
 _Why?_ Because it is the official semantic UI integration, looks good without adding too much of CSS and it also has a good semantic UI sync with React.
 
+- #### Folder Structure
+
+  ```sh
+  /src
+    /App
+      App.jsx
+    /assets
+      /images
+    /components
+      /event
+        /eventDashBoard
+          EventDashBoard.jsx
+        /eventList
+          EventList.jsx
+          EventListAttendee.jsx
+          EventListItem.jsx
+      /nav
+        /navBar
+          NavBar.jsx
+  ```
+
 ### Built With
 
 This is the list of the tech stack:
@@ -183,6 +204,7 @@ Contributions are what make the open source community such an amazing place to b
 
 - [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started)
 - [React documentation](https://reactjs.org/)
+- [Optimal file structure for React applications](https://medium.com/@Charles_Stover/optimal-file-structure-for-react-applications-f3e35ad0a145)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
