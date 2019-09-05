@@ -13,14 +13,24 @@ class EventForm extends Component {
     hostedBy: ''
   };
 
+  // Fills the form with the selected event
+  componentDidMount() {
+    if (this.props.selectedEvent !== null) {
+      this.setState({
+        ...this.props.selectedEvent
+      });
+    }
+  }
+
   // Gets the information when form is submitted
   handleFormSubmit = event => {
     event.preventDefault();
-
-    const { createEvent } = this.props;
-    createEvent(this.state)
-
-    console.log(this.state);
+    if (this.state.id) {
+      this.props.updateEvent(this.state);
+    } else {
+      const { createEvent } = this.props;
+      createEvent(this.state);
+    }
   };
 
   // Updates the state with the information from the form
