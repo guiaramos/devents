@@ -14,16 +14,23 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        <NavBar />
-        <Container className='main'>
-          <Route path='/' exact component={Home} />
-          <Route path='/events' component={EventDashboard} />
-          <Route path='/events/:id' component={EventDetailed} />
-          <Route path='/people' component={PeopleDashboard} />
-          <Route path='/profile/:id' component={UserDetailed} />
-          <Route path='/settings' component={SettingsDashboard} />
-          <Route path='/createEvent' component={EventForm} />
-        </Container>
+        <Route path='/' exact component={Home} />
+        <Route
+          path='/(.+)'
+          render={() => (
+            <Fragment>
+              <NavBar />
+              <Container className='main'>
+                <Route path='/events' component={EventDashboard} />
+                <Route path='/events/:id' component={EventDetailed} />
+                <Route path='/people' component={PeopleDashboard} />
+                <Route path='/profile/:id' component={UserDetailed} />
+                <Route path='/settings' component={SettingsDashboard} />
+                <Route path='/createEvent' component={EventForm} />
+              </Container>
+            </Fragment>
+          )}
+        />
       </Fragment>
     );
   }
