@@ -10,7 +10,6 @@ import ScrollToTop from './Pages/App/common/util/ScrollToTop';
 
 // Store configuration
 const store = configureStore();
-console.log(store.getState());
 
 // The root of the app
 const rootEl = document.getElementById('root');

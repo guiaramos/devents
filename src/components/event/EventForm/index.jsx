@@ -1,17 +1,38 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Segment, Form, Button } from 'semantic-ui-react';
+import { createEvent, updateEvent } from '../eventActions';
+import cuid from 'cuid';
 
-/**
- * Event form for creating new event
- */
-class EventForm extends Component {
-  state = {
+// Gets data from the store
+const mapStateToProps = (state, ownProps) => {
+  const eventId = ownProps.match.params.id;
+
+  let event = {
     title: '',
     date: '',
     city: '',
     venue: '',
     hostedBy: ''
   };
+
+  if (eventId && state.events.length > 0) {
+    event = state.events.filter(event => event.id === eventId)[0];
+  }
+
+  return {
+    event
+  };
+};
+
+const actions = {
+  createEvent,
+  updateEvent
+};
+
+//Event form for creating new event
+class EventForm extends Component {
+  state = { ...this.props.event };
 
   // Fills the form with the selected event
   componentDidMount() {
@@ -27,9 +48,15 @@ class EventForm extends Component {
     event.preventDefault();
     if (this.state.id) {
       this.props.updateEvent(this.state);
+      this.props.history.push(`/events/${this.state.id}`);
     } else {
-      const { createEvent } = this.props;
-      createEvent(this.state);
+      const newEvent = {
+        ...this.state,
+        id: cuid(),
+        hostPhotoURL: './assets/images/user.png'
+      };
+      this.props.createEvent(newEvent);
+      this.props.history.push(`/events`);
     }
   };
 
@@ -41,7 +68,6 @@ class EventForm extends Component {
   };
 
   render() {
-    const { cancelFormOpen } = this.props; //Calls the function that toggle the form
     const { title, date, city, venue, hostedBy } = this.state; // Gets the states from the form infos
     return (
       <Segment>
@@ -95,7 +121,7 @@ class EventForm extends Component {
           <Button positive type='submit'>
             Submit
           </Button>
-          <Button onClick={cancelFormOpen} type='button'>
+          <Button onClick={this.props.history.goBack} type='button'>
             Cancel
           </Button>
         </Form>
@@ -103,4 +129,7 @@ class EventForm extends Component {
     );
   }
 }
-export default EventForm;
+export default connect(
+  mapStateToProps,
+  actions
+)(EventForm);
