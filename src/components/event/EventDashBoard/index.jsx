@@ -3,62 +3,25 @@ import { Grid, Button } from 'semantic-ui-react';
 import EventList from '../eventList/EventList';
 import EventForm from '../EventForm';
 import cuid from 'cuid';
+import { connect } from 'react-redux';
+import { createEvent, updateEvent, deleteEvent } from '../eventActions';
 
-const eventsDummy = [
-  {
-    id: '1',
-    title: 'Trip to Tower of London',
-    date: '2018-03-27',
-    category: 'culture',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
-    city: 'London, UK',
-    venue: "Tower of London, St Katharine's & Wapping, London",
-    hostedBy: 'Bob',
-    hostPhotoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
-    attendees: [
-      {
-        id: 'a',
-        name: 'Bob',
-        photoURL: 'https://randomuser.me/api/portraits/men/20.jpg'
-      },
-      {
-        id: 'b',
-        name: 'Tom',
-        photoURL: 'https://randomuser.me/api/portraits/men/22.jpg'
-      }
-    ]
-  },
-  {
-    id: '2',
-    title: 'Trip to Punch and Judy Pub',
-    date: '2018-03-28',
-    category: 'drinks',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
-    city: 'London, UK',
-    venue: 'Punch & Judy, Henrietta Street, London, UK',
-    hostedBy: 'Tom',
-    hostPhotoURL: 'https://randomuser.me/api/portraits/men/22.jpg',
-    attendees: [
-      {
-        id: 'b',
-        name: 'Tom',
-        photoURL: 'https://randomuser.me/api/portraits/men/22.jpg'
-      },
-      {
-        id: 'a',
-        name: 'Bob',
-        photoURL: 'https://randomuser.me/api/portraits/men/20.jpg'
-      }
-    ]
-  }
-];
+// Retrieves the events from the store
+const mapState = state => ({
+  events: state.events
+});
+
+//
+const actions = {
+  createEvent,
+  updateEvent,
+  deleteEvent
+};
 
 class EventDashboard extends Component {
   // States for the Dashboard
+
   state = {
-    events: eventsDummy,
     isOpen: false,
     selectedEvent: null
   };
@@ -89,8 +52,8 @@ class EventDashboard extends Component {
   handleCreateEvent = newEvent => {
     newEvent.id = cuid();
     newEvent.hostPhotoURL = './assets/images/user.png';
-    this.setState(({ events }) => ({
-      events: [...events, newEvent],
+    this.props.createEvent(newEvent);
+    this.setState(() => ({
       isOpen: false
     }));
   };
@@ -105,14 +68,8 @@ class EventDashboard extends Component {
 
   // Updates the event information
   handleUpdateEvent = updatedEvent => {
-    this.setState(({ events }) => ({
-      events: events.map(event => {
-        if (event.id === updatedEvent.id) {
-          return { ...updatedEvent };
-        } else {
-          return event;
-        }
-      }),
+    this.props.updateEvent(updatedEvent);
+    this.setState(() => ({
       isOpen: false,
       selectedEvent: null
     }));
@@ -120,13 +77,12 @@ class EventDashboard extends Component {
 
   // Deletes the selected event
   handleDeleteEvent = id => {
-    this.setState(({ events }) => ({
-      events: events.filter(e => e.id !== id)
-    }));
+    this.props.deleteEvent(id);
   };
 
   render() {
-    const { events, isOpen, selectedEvent } = this.state;
+    const { isOpen, selectedEvent } = this.state;
+    const { events } = this.props;
     return (
       <Grid>
         <Grid.Column width={10}>
@@ -157,4 +113,7 @@ class EventDashboard extends Component {
   }
 }
 
-export default EventDashboard;
+export default connect(
+  mapState,
+  actions
+)(EventDashboard);
